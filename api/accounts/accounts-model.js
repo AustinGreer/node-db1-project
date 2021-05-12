@@ -5,7 +5,6 @@ const getAll = () => {
 }
 
 const getById = async (id) => {
-  // DO YOUR MAGIC
   const uniqueId = await db('accounts')
     .where({id})
     .first()
@@ -13,8 +12,11 @@ const getById = async (id) => {
   return uniqueId
 }
 
-const create = account => {
-  // DO YOUR MAGIC
+const create =  async (account) => {
+  // insert
+  const [id] = await db('accounts').insert(account)
+
+  return getById(id)
 }
 
 const updateById = (id, account) => {
