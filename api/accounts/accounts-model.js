@@ -1,21 +1,36 @@
+const db = require('../../data/db-config')
+
 const getAll = () => {
-  // DO YOUR MAGIC
+  return db('accounts')
 }
 
-const getById = id => {
-  // DO YOUR MAGIC
+const getById = async (id) => {
+  const uniqueId = await db('accounts')
+    .where({id})
+    .first()
+
+  return uniqueId
 }
 
-const create = account => {
-  // DO YOUR MAGIC
+const create =  async (account) => {
+  // insert
+  const [id] = await db('accounts').insert(account)
+
+  return getById(id)
 }
 
-const updateById = (id, account) => {
-  // DO YOUR MAGIC
+const updateById = async (id, account) => {
+  // update Customers set account where id = id
+  const entry = await db('accounts').where('id', id).update(account) // eslint-disable-line
+  const updatedAccount = await getById(id)
+  return updatedAccount
 }
 
-const deleteById = id => {
-  // DO YOUR MAGIC
+const deleteById = async (id) => {
+  // delete from accounts where 'id', id
+  const postToDelete = await getById(id)
+  const affectedEntry = await db('accounts').where('id', id).del() // eslint-disable-line
+  return postToDelete
 }
 
 module.exports = {
